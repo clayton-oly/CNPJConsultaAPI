@@ -1,7 +1,12 @@
-﻿namespace CNPJConsultaAPI.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CNPJConsultaAPI.Models
 {
+    [Table("Empresa")]
     public class Empresa
     {
+        [Key]
         public int IdEmpresa { get; set; }
         public string NomeEmpresarial { get; set; }
         public string NomeFantasia { get; set; }
@@ -19,5 +24,8 @@
         public string Municipio { get; set; }
         public string UF { get; set; }
         public string CEP { get; set; }
+
+        public int UsuarioId { get; set; }
+        public Usuario? Usuario { get; set; }
     }
 }
