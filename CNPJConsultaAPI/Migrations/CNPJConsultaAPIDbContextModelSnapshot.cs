@@ -30,67 +30,48 @@ namespace CNPJConsultaAPI.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdEmpresa"));
 
                     b.Property<string>("Abertura")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("AtividadePrincipal")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Bairro")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("CEP")
-                        .IsRequired()
+                    b.Property<string>("Cep")
                         .HasColumnType("text");
 
-                    b.Property<string>("CNPJ")
-                        .IsRequired()
+                    b.Property<string>("Cnpj")
                         .HasColumnType("text");
 
                     b.Property<string>("Complemento")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Logradouro")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Municipio")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NaturezaJuridica")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("NomeEmpresa")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NomeEmpresarial")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NomeFantasia")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Numero")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Situacao")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Tipo")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UF")
-                        .IsRequired()
+                    b.Property<string>("Uf")
                         .HasColumnType("text");
 
                     b.Property<int>("UsuarioId")
@@ -113,11 +94,18 @@ namespace CNPJConsultaAPI.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.Property<string>("Senha")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.HasKey("IdUsuario");
 
@@ -127,12 +115,17 @@ namespace CNPJConsultaAPI.Migrations
             modelBuilder.Entity("CNPJConsultaAPI.Models.Empresa", b =>
                 {
                     b.HasOne("CNPJConsultaAPI.Models.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("Empresas")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CNPJConsultaAPI.Models.Usuario", b =>
+                {
+                    b.Navigation("Empresas");
                 });
 #pragma warning restore 612, 618
         }

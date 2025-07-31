@@ -1,8 +1,6 @@
 ﻿using CNPJConsultaAPI.Data;
 using CNPJConsultaAPI.Models;
 using CNPJConsultaAPI.Repositories.Interfaces;
-using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CNPJConsultaAPI.Repositories
@@ -29,12 +27,12 @@ namespace CNPJConsultaAPI.Repositories
 
         public async Task<Usuario> GetUsuarioByEmailAsync(string email)
         {
-            return await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
+            return  await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<Usuario> Login(Usuario usuario)
+        public async Task<Usuario> GetUsuarioByIdAsync(int id)
         {
-            return usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email && u.Senha == usuario.Senha);
+            return await _context.Usuarios.FirstOrDefaultAsync(u => u.IdUsuario == id);
         }
     }
 }

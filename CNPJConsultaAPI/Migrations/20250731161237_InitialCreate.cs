@@ -17,8 +17,9 @@ namespace CNPJConsultaAPI.Migrations
                 {
                     IdUsuario = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    Senha = table.Column<string>(type: "text", nullable: false)
+                    Nome = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    Email = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    Senha = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,22 +32,21 @@ namespace CNPJConsultaAPI.Migrations
                 {
                     IdEmpresa = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NomeEmpresarial = table.Column<string>(type: "text", nullable: false),
-                    NomeFantasia = table.Column<string>(type: "text", nullable: false),
-                    CNPJ = table.Column<string>(type: "text", nullable: false),
-                    Situacao = table.Column<string>(type: "text", nullable: false),
-                    Abertura = table.Column<string>(type: "text", nullable: false),
-                    Tipo = table.Column<string>(type: "text", nullable: false),
-                    NaturezaJuridica = table.Column<string>(type: "text", nullable: false),
-                    AtividadePrincipal = table.Column<string>(type: "text", nullable: false),
-                    NomeEmpresa = table.Column<string>(type: "text", nullable: false),
-                    Logradouro = table.Column<string>(type: "text", nullable: false),
-                    Numero = table.Column<string>(type: "text", nullable: false),
-                    Complemento = table.Column<string>(type: "text", nullable: false),
-                    Bairro = table.Column<string>(type: "text", nullable: false),
-                    Municipio = table.Column<string>(type: "text", nullable: false),
-                    UF = table.Column<string>(type: "text", nullable: false),
-                    CEP = table.Column<string>(type: "text", nullable: false),
+                    NomeEmpresarial = table.Column<string>(type: "text", nullable: true),
+                    NomeFantasia = table.Column<string>(type: "text", nullable: true),
+                    Cnpj = table.Column<string>(type: "text", nullable: true),
+                    Situacao = table.Column<string>(type: "text", nullable: true),
+                    Abertura = table.Column<string>(type: "text", nullable: true),
+                    Tipo = table.Column<string>(type: "text", nullable: true),
+                    NaturezaJuridica = table.Column<string>(type: "text", nullable: true),
+                    AtividadePrincipal = table.Column<string>(type: "text", nullable: true),
+                    Logradouro = table.Column<string>(type: "text", nullable: true),
+                    Numero = table.Column<string>(type: "text", nullable: true),
+                    Complemento = table.Column<string>(type: "text", nullable: true),
+                    Bairro = table.Column<string>(type: "text", nullable: true),
+                    Municipio = table.Column<string>(type: "text", nullable: true),
+                    Uf = table.Column<string>(type: "text", nullable: true),
+                    Cep = table.Column<string>(type: "text", nullable: true),
                     UsuarioId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

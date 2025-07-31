@@ -9,7 +9,19 @@ namespace CNPJConsultaAPI.Models
     {
         [Key]
         public int IdUsuario { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório!")]
+        [StringLength(150)]
+        public string Nome { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório!")]
+        [StringLength(150)]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Campo obrigatório!")]
+        [StringLength(150)]
         public string Senha { get; set; }
+
+        public ICollection<Empresa> Empresas { get; set; }
     }
 }

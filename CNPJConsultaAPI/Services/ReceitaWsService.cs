@@ -12,7 +12,7 @@ namespace CNPJConsultaAPI.Services
             _httpClient = httpClient;
         }
 
-        public async Task<ReceitaWsDTO?> BuscarCnpjAsync(string cnpj)
+        public async Task<ReceitaWsDTO?> ConsultarCnpjAsync(string cnpj)
         {
             try
             {

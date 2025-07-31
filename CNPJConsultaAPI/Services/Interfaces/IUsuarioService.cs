@@ -1,4 +1,5 @@
 ﻿using CNPJConsultaAPI.DTO;
+using CNPJConsultaAPI.DTOs;
 
 namespace CNPJConsultaAPI.Services.Interfaces
 {

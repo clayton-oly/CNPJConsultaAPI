@@ -19,9 +19,22 @@ namespace CNPJConsultaAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Empresa>> GetAllAsync()
+        public async Task<Empresa> GetByCnpjAsync(string cnpj)
         {
-            return await _context.Empresas.Include(u => u.Usuario).ToListAsync();
+            return await _context.Empresas.FirstOrDefaultAsync(e => e.Cnpj == cnpj);
+        }
+
+        public async Task<List<Empresa>> GetAllEmpresaByIdUsuarioAsync(int id)
+        {
+            return await _context.Empresas
+                .Where(e => e.UsuarioId == id)
+                .ToListAsync();
+        }
+
+        public async Task UpdateEmpresaAsync(Empresa empresa)
+        {
+            _context.Empresas.Update(empresa);
+            await _context.SaveChangesAsync();
         }
     }
 }
