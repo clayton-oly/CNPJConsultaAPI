@@ -1,8 +1,6 @@
 ﻿using CNPJConsultaAPI.DTO;
-using CNPJConsultaAPI.Interfaces;
-using CNPJConsultaAPI.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+using CNPJConsultaAPI.Services;
+using CNPJConsultaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,39 +11,37 @@ namespace CNPJConsultaAPI.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly IUsuarioRepository _usuarioRepository;
-        public UsuarioController(IUsuarioRepository usuarioRepository)
+        private readonly IUsuarioService _usuarioService;
+        public UsuarioController(IUsuarioService usuarioService)
         {
-            _usuarioRepository = usuarioRepository;
+            _usuarioService = usuarioService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Usuario usuario)
+        public async Task<IActionResult> Create([FromBody] UsuarioDTO usuarioDTO)
         {
-            await _usuarioRepository.AddUsuarioAsync(usuario);
-
-            return (Ok());
+            await _usuarioService.CreateUsuarioAsync(usuarioDTO);
+            return Ok("Usuário criado com sucesso");
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var usuarios = await _usuarioRepository.GetAll();
+            var usuarios = await _usuarioService.GetAll();
             return Ok(usuarios);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UsuarioDTO usuarioDTO)
         {
-            usuario = await _usuarioRepository.Login(usuarioDTO);
+            var usuario = await _usuarioService.Login(usuarioDTO);
 
             if (usuario == null)
                 return Unauthorized("Email ou senha inválidos.");
-
-            // Aqui você pode gerar um token JWT, por exemplo (não incluso neste exemplo)
-            return Ok(usuario);
+            else
+            {
+                return Ok();
+            }
         }
-        
-        public async Task<Usuario>
     }
 }

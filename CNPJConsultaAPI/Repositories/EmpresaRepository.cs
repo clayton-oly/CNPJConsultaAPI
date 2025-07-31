@@ -1,6 +1,6 @@
 ﻿using CNPJConsultaAPI.Data;
-using CNPJConsultaAPI.Interfaces;
 using CNPJConsultaAPI.Models;
+using CNPJConsultaAPI.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CNPJConsultaAPI.Repositories

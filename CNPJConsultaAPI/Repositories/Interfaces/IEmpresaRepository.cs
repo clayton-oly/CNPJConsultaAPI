@@ -1,7 +1,7 @@
 ﻿using CNPJConsultaAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CNPJConsultaAPI.Interfaces
+namespace CNPJConsultaAPI.Repositories.Interfaces
 {
     public interface IEmpresaRepository
     {

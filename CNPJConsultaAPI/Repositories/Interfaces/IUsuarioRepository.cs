@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CNPJConsultaAPI.Interfaces
+namespace CNPJConsultaAPI.Repositories.Interfaces
 {
     public interface IUsuarioRepository
     {
 
         Task AddUsuarioAsync(Usuario usuario);
         Task<List<Usuario>> GetAll();
-        [HttpPost("login")]
+        Task<Usuario> GetUsuarioByEmailAsync(string email);
         Task<Usuario> Login(Usuario usuario);
     }
 }
