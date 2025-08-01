@@ -13,7 +13,7 @@ Uma API desenvolvida em ASP.NET Core para consultar e cadastrar empresas a parti
 
 ## 🛠️ Tecnologias Utilizadas
 
-- ASP.NET Core 8
+- ASP.NET Core 9
 - Entity Framework Core
 - AutoMapper
 - SQL Server
