@@ -17,10 +17,20 @@ namespace CNPJConsultaAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] UsuarioDTO usuarioDTO)
+        public async Task<IActionResult> Create([FromBody] UsuarioDTO dto)
         {
-            await _usuarioService.CreateUsuarioAsync(usuarioDTO);
-            return Ok("Usuário criado com sucesso");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                await _usuarioService.CreateUsuarioAsync(dto);
+                return CreatedAtAction(nameof(GetById), new { id = dto.IdUsuario }, "Usuário cadastrado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = ex.Message });
+            }
         }
 
         [Authorize]
@@ -28,7 +38,22 @@ namespace CNPJConsultaAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             var usuarios = await _usuarioService.GetAll();
+
+            if (usuarios == null || !usuarios.Any())
+                return NotFound(new { mensagem = "Nenhum usuário encontrado." });
+
             return Ok(usuarios);
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var usuario = await _usuarioService.GetByIdAsync(id);
+            if (usuario == null)
+                return NotFound(new { mensagem = "Usuário não encontrado." });
+
+            return Ok(usuario);
         }
     }
 }

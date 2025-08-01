@@ -30,48 +30,63 @@ namespace CNPJConsultaAPI.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdEmpresa"));
 
                     b.Property<string>("Abertura")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("AtividadePrincipal")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Bairro")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Cep")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Cnpj")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Complemento")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Logradouro")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Municipio")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NaturezaJuridica")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NomeEmpresarial")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NomeFantasia")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Numero")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Situacao")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Tipo")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Uf")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("UsuarioId")

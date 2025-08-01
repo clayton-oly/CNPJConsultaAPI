@@ -48,10 +48,29 @@ namespace CNPJConsultaAPI.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
                         ClockSkew = TimeSpan.Zero
                     };
+
+       
+                    options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+                    {
+                        OnChallenge = context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            context.Response.ContentType = "application/json";
+
+                            var result = System.Text.Json.JsonSerializer.Serialize(new
+                            {
+                                mensagem = "Acesso não autorizado. Token inválido ou ausente."
+                            });
+
+                            return context.Response.WriteAsync(result);
+                        }
+                    };
                 });
 
             return services;
         }
+
 
         public static IServiceCollection AddSwaggerWithJwt(this IServiceCollection services)
         {

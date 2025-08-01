@@ -7,6 +7,7 @@ namespace CNPJConsultaAPI.Services.Interfaces
     {
         Task<List<UsuarioDTO>> GetAll();
         Task CreateUsuarioAsync(UsuarioDTO usuarioDTO);
+        Task<UsuarioDTO?> GetByIdAsync(int id);
         Task<UsuarioDTO> Login(UsuarioDTO usuarioDTO);
     }
 }

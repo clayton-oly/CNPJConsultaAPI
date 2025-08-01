@@ -31,18 +31,23 @@ namespace CNPJConsultaAPI.Services
 
         public async Task CreateUsuarioAsync(UsuarioDTO usuarioDTO)
         {
-            var usuario = _mapper.Map<Usuario>(usuarioDTO);
-            var usuarioExistente = await _usuarioRepository.GetUsuarioByEmailAsync(usuario.Email);
+            var usuarioExistente = await _usuarioRepository.GetUsuarioByEmailAsync(usuarioDTO.Email);
+            if (usuarioExistente != null)
+                throw new Exception("Já existe um usuário cadastrado com esse e-mail.");
 
-            if (usuarioExistente == null)
-            {
-                usuario.Senha = _passwordHasher.HashPassword(usuario, usuarioDTO.Senha);
-                await _usuarioRepository.AddUsuarioAsync(usuario);
-            }
-            else
-            {
-                throw new Exception("Usuário já existe com esse e-mail.");
-            }
+            var usuario = _mapper.Map<Usuario>(usuarioDTO);
+            usuario.Senha = _passwordHasher.HashPassword(usuario, usuarioDTO.Senha);
+
+            await _usuarioRepository.AddUsuarioAsync(usuario);
+        }
+
+        public async Task<UsuarioDTO?> GetByIdAsync(int id)
+        {
+            var usuario = await _usuarioRepository.GetUsuarioByIdAsync(id);
+            if (usuario == null)
+                return null;
+
+            return _mapper.Map<UsuarioDTO>(usuario);
         }
 
         public async Task<UsuarioDTO?> Login(UsuarioDTO usuarioDTO)
@@ -52,9 +57,12 @@ namespace CNPJConsultaAPI.Services
             if (usuarioNoBanco == null)
                 return null;
 
-            var result = _passwordHasher.VerifyHashedPassword(usuarioNoBanco, usuarioNoBanco.Senha, usuarioDTO.Senha);
+            var senhaDigitada = usuarioDTO.Senha;
+            var senhaHashBanco = usuarioNoBanco.Senha;
 
-            if (result != PasswordVerificationResult.Success)
+            var resultadoVerificacao = _passwordHasher.VerifyHashedPassword(usuarioNoBanco, senhaHashBanco, senhaDigitada);
+
+            if (resultadoVerificacao != PasswordVerificationResult.Success)
                 return null;
 
             return _mapper.Map<UsuarioDTO>(usuarioNoBanco);

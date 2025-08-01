@@ -1,5 +1,6 @@
 ﻿using CNPJConsultaAPI.DTO;
 using CNPJConsultaAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CNPJConsultaAPI.Controllers
@@ -15,10 +16,14 @@ namespace CNPJConsultaAPI.Controllers
             _tokenService = tokenService;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UsuarioDTO usuarioDTO)
         {
-           var usuario = await _usuarioService.Login(usuarioDTO);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var usuario = await _usuarioService.Login(usuarioDTO);
 
             if (usuario == null)
                 return Unauthorized("Credenciais inválidas.");
@@ -26,5 +31,6 @@ namespace CNPJConsultaAPI.Controllers
             var token = _tokenService.GerarToken(usuario);
             return Ok(new { token });
         }
+
     }
 }

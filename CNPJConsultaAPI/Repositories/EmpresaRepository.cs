@@ -21,7 +21,11 @@ namespace CNPJConsultaAPI.Repositories
 
         public async Task<Empresa> GetByCnpjAsync(string cnpj)
         {
-            return await _context.Empresas.FirstOrDefaultAsync(e => e.Cnpj == cnpj);
+            var empresas = await _context.Empresas.ToListAsync();
+
+            return empresas
+                .FirstOrDefault(e =>
+                    new string(e.Cnpj.Where(char.IsDigit).ToArray()) == cnpj);
         }
 
         public async Task<List<Empresa>> GetAllEmpresaByIdUsuarioAsync(int id)
@@ -29,12 +33,6 @@ namespace CNPJConsultaAPI.Repositories
             return await _context.Empresas
                 .Where(e => e.UsuarioId == id)
                 .ToListAsync();
-        }
-
-        public async Task UpdateEmpresaAsync(Empresa empresa)
-        {
-            _context.Empresas.Update(empresa);
-            await _context.SaveChangesAsync();
         }
     }
 }

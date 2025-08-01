@@ -3,6 +3,7 @@ using CNPJConsultaAPI.DTO;
 using CNPJConsultaAPI.Models;
 using CNPJConsultaAPI.Repositories.Interfaces;
 using CNPJConsultaAPI.Services.Interfaces;
+using CNPJConsultaAPI.Utils;
 
 namespace CNPJConsultaAPI.Services
 {
@@ -21,19 +22,32 @@ namespace CNPJConsultaAPI.Services
             _usuarioRepository = usuarioRepository;
         }
 
-        public async Task CreateEmpresaAsync(string cnpj, int id)
+        public async Task CreateEmpresaAsync(string cnpj, int usuarioId)
         {
-            var empresa = await _empresaRepository.GetByCnpjAsync(cnpj);
-            if (empresa != null)
-                throw new Exception("Empresa já cadastrada.");
+            if (string.IsNullOrWhiteSpace(cnpj))
+                throw new ArgumentException("CNPJ não pode ser vazio.");
 
-            var usuario = await _usuarioRepository.GetUsuarioByIdAsync(id);
+            cnpj = new string(cnpj.Where(char.IsDigit).ToArray());
+
+            if (cnpj.Length != 14)
+                throw new ArgumentException("CNPJ deve conter 14 dígitos numéricos.");
+
+            if (!CnpjUtils.IsCnpjValido(cnpj))
+                throw new ArgumentException("CNPJ inválido.");
+
+            var empresaExistente = await _empresaRepository.GetByCnpjAsync(cnpj);
+            if (empresaExistente != null)
+                throw new InvalidOperationException("Empresa já cadastrada.");
+
+            var usuario = await _usuarioRepository.GetUsuarioByIdAsync(usuarioId);
             if (usuario == null)
-                throw new Exception("Usuário não encontrado.");
+                throw new KeyNotFoundException("Usuário não encontrado.");
 
             var receitaWsDTO = await _receitaWsService.ConsultarCnpjAsync(cnpj);
+            if (receitaWsDTO == null || receitaWsDTO.Status != "OK")
+                throw new Exception("Não foi possível consultar os dados da ReceitaWS para o CNPJ informado.");
 
-            empresa = _mapper.Map<Empresa>(receitaWsDTO);
+            var empresa = _mapper.Map<Empresa>(receitaWsDTO);
 
             empresa.UsuarioId = usuario.IdUsuario;
 
