@@ -20,6 +20,13 @@ Uma API desenvolvida em ASP.NET Core para consultar e cadastrar empresas a parti
 - JWT Authentication
 - ReceitaWS (API pública)
 
+## Documentação Online
+
+A documentação da API pode ser acessada no Swagger via:
+
+[https://cnpjconsultaapi.onrender.com/swagger/index.html](https://cnpjconsultaapi.onrender.com/swagger/index.html)
+
+
 ## ⚙️ Como Usar
 
 ### 1. Clone o repositório
